@@ -1,0 +1,6 @@
+.*/
+build/
+wl/xdg-shell.c
+wl/xdg-shell.h
+wl/layer-shell.c
+wl/layer-shell.h
