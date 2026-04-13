@@ -9,7 +9,12 @@ One thing for sure is that it works (on my machine;)
 ## Requirements
  * Wayland compositor with `wlr-layer-shell` support.
    * Check support at https://wayland.app/protocols/wlr-layer-shell-unstable-v1
- * GPU with OpenGL®|ES 2.0 support (any, basically)  
+ * GPU with OpenGL®|ES 2.0 support (any, basically)
+### Dependencies
+Fedora
+```sh
+sudo dnf install wayland-devel wlr-protocols-devel wayland-protocols-devel mesa-libEGL-devel
+```
 ### How 2 Build
  1. Clone Repo with `git clone`
  2. `cd` to Repo folder (glawp)
