@@ -19,7 +19,7 @@
 */
 #pragma once
 #include "layer-shell.h"
-
+#include <wayland-client.h>
 #include <wayland-egl.h>
 #include <EGL/egl.h>
 #include <EGL/eglext.h>

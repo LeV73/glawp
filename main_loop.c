@@ -44,7 +44,7 @@ render(struct wl_app *app, double time) {
 
     eglSwapBuffers(app->egl_display, app->egl_surface);
 }
-
+/*
 void
 schedule_frame(struct wl_app *app) {
     if (app->frame_callback)
@@ -54,23 +54,17 @@ schedule_frame(struct wl_app *app) {
     wl_callback_add_listener(app->frame_callback, &frame_callbackl, app);
     wl_surface_commit(app->surface);
 }
-
+*/
 void
 main_loop(struct wl_app *app, struct parsedData *parsed) {
     app->redraw = 1;
     double start = now_sec();
-    double target_dt = 1.0 / (double)parsed->max_fps;
-    double next_frame_time = start;
-    
+    // double target_dt = 1.0 / (double)parsed->max_fps;
+    // double next_frame_time = start;
     while (app->running) {
-        wl_display_dispatch_pending(app->display);
-
         double now = now_sec();
-        if (app->configured && now >= next_frame_time) {
-            render(app, now - start);
-            next_frame_time += target_dt;
-            if (next_frame_time < now)
-                next_frame_time = now + target_dt;
-        }
+        wl_display_dispatch_pending(app->display);
+        render(app, now - start);
+        wl_display_dispatch(app->display);
     }
 }

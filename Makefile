@@ -1,7 +1,9 @@
 CC=cc
 CFLAGS=-std=c23
 DFLAGS=-ggdb
-WFLAGS=-Wall -Wextra -Wpedantic -Werror
+#R for Release
+RFLAGS=-Werror
+WFLAGS=-Wall -Wextra -Wpedantic
 LIBS=-lwayland-client -lwayland-egl -lEGL -lGLESv2
 RELEASE_EXEC=build/glawp
 DEBUG_EXEC=build/glawp_gdb
