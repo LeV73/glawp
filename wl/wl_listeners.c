@@ -31,11 +31,11 @@ uint32_t name, const char *interface, uint32_t version) {
 
     if (!strcmp(interface, wl_compositor_interface.name)) {
         app->compositor = wl_registry_bind(wl_registry, name, 
-            &wl_compositor_interface, 4);
+            &wl_compositor_interface, version);
     
     } else if (!strcmp(interface, zwlr_layer_shell_v1_interface.name)) {
         app->layer_shell = wl_registry_bind(wl_registry, name, 
-            &zwlr_layer_shell_v1_interface, 4);
+            &zwlr_layer_shell_v1_interface, version);
 
     }
 }

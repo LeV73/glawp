@@ -1,6 +1,7 @@
 CC=cc
-CFLAGS=
+CFLAGS=-std=c2y
 DFLAGS=-ggdb
+WFLAGS=-Wall -Wextra -Wpedantic -Werror
 LIBS=-lwayland-client -lwayland-egl -lEGL -lGLESv2
 RELEASE_EXEC=build/glawp
 DEBUG_EXEC=build/glawp_gdb
@@ -10,7 +11,8 @@ XDG_SHELL=wl/xdg-shell.c
 WL_SHELLS=$(LAYER_SHELL) $(XDG_SHELL)
 
 debug:
-	$(CC) $(DFLAGS) $(CFLAGS) $(LIBS) -o $(DEBUG_EXEC) $(WL_SHELLS) main.c
+	if [ -f $(DEBUG_EXEC) ]; then rm $(DEBUG_EXEC); fi
+	$(CC) $(DFLAGS) $(CFLAGS) $(WFLAGS) $(LIBS) -o $(DEBUG_EXEC) $(WL_SHELLS) main.c
 
 protocols:
 	wayland-scanner client-header /usr/share/wlr-protocols/unstable/wlr-layer-shell-unstable-v1.xml wl/layer-shell.h

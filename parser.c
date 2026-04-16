@@ -42,9 +42,8 @@ parse(int argc, char **argv) {
     data.debug_flag = 0;
 
     int parsed_fps;
-    int opt;
+    int opt = getopt(argc, argv, ":vdf:");
     while (opt != -1) {
-        opt = getopt(argc, argv, ":vdf:");
         //printf("opt = %i\n", opt);
         switch (opt) {
             case 'v':
@@ -73,6 +72,7 @@ parse(int argc, char **argv) {
                 data.ver_flag = 1;
                 return data;
         }
+        opt = getopt(argc, argv, ":vdf:");
     }
     data.fragShaderPath = argv[argc - 1];
     return data;

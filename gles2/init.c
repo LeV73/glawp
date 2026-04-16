@@ -90,10 +90,10 @@ init_gles2(struct wl_app *app, char* fragShaderPath) {
     if (fragment_shader_code == NULL) { free(fragment_shader_code); app->err = 14; return; }
     
     GLuint vs = compile_shader_gles2(GL_VERTEX_SHADER, vertex_shader_code);
-    if (vs == -1) { free(fragment_shader_code); app->err = 15; return; }
+    if (!vs) { free(fragment_shader_code); app->err = 15; return; }
     
     GLuint fs = compile_shader_gles2(GL_FRAGMENT_SHADER, fragment_shader_code);
-    if (fs == -1) { glDeleteShader(vs); free(fragment_shader_code); app->err = 16; return; }
+    if (!fs) { glDeleteShader(vs); free(fragment_shader_code); app->err = 16; return; }
     
     app->program = glCreateProgram();
     glAttachShader(app->program, vs);

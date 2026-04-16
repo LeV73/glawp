@@ -21,6 +21,7 @@
     }    
 }
 */
+#define _POSIX_C_SOURCE 200809L
 #include "parser.c"
 #include "wl/init.c"
 #include "egl/init.c"
