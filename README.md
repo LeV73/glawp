@@ -9,7 +9,25 @@ One thing for sure is that it works (on my machine;)
 ## Requirements
  * Wayland compositor with `wlr-layer-shell` support.
    * Check support at https://wayland.app/protocols/wlr-layer-shell-unstable-v1
- * GPU with OpenGL®|ES 2.0 support (any, basically)  
+ * GPU with OpenGL®|ES 2.0 support (any, basically)
+### Dependencies
+**Arch Linux**
+```sh
+sudo pacman --sync --refresh --needed gcc make gdb wayland wlr-protocols wayland-protocols libglvnd
+```
+**Fedora**
+```sh
+sudo dnf install gcc make gdb wayland-devel wlr-protocols-devel wayland-protocols-devel mesa-libEGL-devel
+```
+**Debian/Ubuntu**
+```sh
+# Since debian doesn't have wlr-protocols package, you have to install them manually
+git clone --depth=1 https://gitlab.freedesktop.org/wlroots/wlr-protocols.git
+cd wlr-protocols
+sudo make install
+# install packages
+apt install gcc make gdb libwayland-dev libwayland-bin wayland-protocols libegl-dev libgles-dev
+```
 ### How 2 Build
  1. Clone Repo with `git clone`
  2. `cd` to Repo folder (glawp)
