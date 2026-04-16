@@ -1,5 +1,5 @@
 CC=cc
-CFLAGS=-std=c2y
+CFLAGS=-std=c23
 DFLAGS=-ggdb
 WFLAGS=-Wall -Wextra -Wpedantic -Werror
 LIBS=-lwayland-client -lwayland-egl -lEGL -lGLESv2
