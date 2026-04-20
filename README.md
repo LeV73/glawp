@@ -22,11 +22,12 @@ sudo dnf install gcc make gdb wayland-devel wlr-protocols-devel wayland-protocol
 **Debian/Ubuntu**
 ```sh
 # Since debian doesn't have wlr-protocols package, you have to install them manually
+# NOT TESTED, PLEASE MAKE ISSUE IF IT DOESN'T BUILD
 git clone --depth=1 https://gitlab.freedesktop.org/wlroots/wlr-protocols.git
 cd wlr-protocols
 sudo make install
 # install packages
-apt install gcc make gdb libwayland-dev libwayland-bin wayland-protocols libegl-dev libgles-dev
+sudo apt install gcc make gdb libwayland-dev libwayland-bin wayland-protocols libegl-dev libgles-dev
 ```
 ### How 2 Build
  1. Clone Repo with `git clone`
@@ -36,7 +37,7 @@ apt install gcc make gdb libwayland-dev libwayland-bin wayland-protocols libegl-
 
 Binary will be built in `build` dir, just run `./build/glawp_gdb ./shaders/opticircle.glsl`
 
-Program takes `-f {fps}` option to set max fps to render at (from 1 to 8999), `-v` for version and `-d` for debug (not implemented).
+Program takes `-f {fps}` option to set max fps to render at, `-v` displays version and `-d` is for debug (not implemented).
 
 # Acknowledgements
  * OpenGL® and EGL® are trademarks or registered trademarks of Hewlett Packard Enterprise in the United States and/or other countries worldwide.  
