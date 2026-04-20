@@ -27,14 +27,41 @@ static double now_sec(void) {
     return (double)ts.tv_sec + (double)ts.tv_nsec / 1e9;
 }
 
+// Compute iDate uniform from current time
+static void
+get_iDate(GLfloat* date) {
+    time_t now = time(NULL);
+    struct tm* timeinfo = gmtime(&now);
+
+    // iDate = (year, month (0-11), day, seconds in day)
+    date[0] = (GLfloat)(1900 + timeinfo->tm_year);
+    date[1] = (GLfloat)timeinfo->tm_mon;
+    date[2] = (GLfloat)timeinfo->tm_mday;
+    date[3] = (GLfloat)(timeinfo->tm_hour * 3600 + timeinfo->tm_min * 60 + timeinfo->tm_sec);
+}
+
 void
 render(struct wl_app *app, double time) {
     glViewport(0, 0, app->width, app->height);
     glClear(GL_COLOR_BUFFER_BIT);
 
     glUseProgram(app->program);
-    glUniform1f(app->uni_time, (GLfloat)time);
-    glUniform2f(app->uni_res, (GLfloat)app->width, (GLfloat)app->height);
+
+    // ShaderToy uniforms
+    double timeDelta = time - app->last_frame_time;
+    app->last_frame_time = time;
+
+    glUniform3f(app->uni_iResolution, (GLfloat)app->width, (GLfloat)app->height, 0.0f);
+    glUniform1f(app->uni_iTime, (GLfloat)time);
+    glUniform1f(app->uni_iTimeDelta, (GLfloat)timeDelta);
+    glUniform1f(app->uni_iFrame, (GLfloat)app->frame_count);
+    glUniform4f(app->uni_iMouse, 0.0f, 0.0f, 0.0f, 0.0f);
+
+    GLfloat date[4];
+    get_iDate(date);
+    glUniform4fv(app->uni_iDate, 1, date);
+
+    app->frame_count++;
 
     glBindBuffer(GL_ARRAY_BUFFER, app->vbo);
     glEnableVertexAttribArray((GLuint)app->attr_pos);

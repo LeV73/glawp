@@ -44,15 +44,25 @@ struct wl_app {
     GLuint program;
     GLuint vbo;
     GLint attr_pos;
-    GLint uni_time;
-    GLint uni_res;
+
+    // ShaderToy uniforms
+    GLint uni_iResolution;
+    GLint uni_iTime;
+    GLint uni_iTimeDelta;
+    GLint uni_iFrame;
+    GLint uni_iMouse;
+    GLint uni_iDate;
+    int frame_count;
+    double last_frame_time;
+
+    int is_shadertoy;
 
     int err;
     int layer_surface_configured;
     int running;
     int configured;
     int redraw;
-    
+
     int width;
     int height;
     int buffer_scale;
