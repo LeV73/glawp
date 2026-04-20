@@ -59,7 +59,7 @@ parse(int argc, char **argv) {
                 break;
             case 'f':
                 fps = strtol(optarg, &endptr, 10);
-                if (*endptr != '\0' || fps < 1) {
+                if (*endptr != '\0' || fps < 0) {
                     printf("glawp < couldn't parse fps, using default 30\n");
                 } else {
                     data.max_fps = (int)fps;

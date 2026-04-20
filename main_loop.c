@@ -19,6 +19,7 @@
 #include "wl/wl_app.c"
 #include "parser.c"
 #include <time.h>
+#include <unistd.h>
 
 static double now_sec(void) {
     struct timespec ts;
@@ -47,17 +48,29 @@ render(struct wl_app *app, double time) {
 void
 main_loop(struct wl_app *app, struct parsedData *parsed) {
     app->redraw = 1;
-    struct timespec frame_sleep;
-    frame_sleep.tv_nsec = 1.0 / (float)parsed->max_fps * 1000000000.0;
-    frame_sleep.tv_sec = 0;
 
-    double start = now_sec();
-
-    while (app->running) {
-        nanosleep(&frame_sleep, NULL);
-        double now = now_sec();
+    // Detect if max_fps = 0 and render image just once
+    // BUG(?): if max_fps = 1 -> sets itself to displays' refresh rate
+    if (parsed->max_fps == 0) {
         wl_display_dispatch_pending(app->display);
-        render(app, now - start);
+        render(app, 1.0f);
         wl_display_dispatch(app->display);
+        while (app->running) {
+            sleep(UINT32_MAX);
+        }
+    } else {
+        struct timespec frame_sleep;
+        frame_sleep.tv_nsec = 1.0 / (float)parsed->max_fps * 1000000000.0;
+        frame_sleep.tv_sec = 0;
+
+        double start = now_sec();
+
+        while (app->running) {
+            nanosleep(&frame_sleep, NULL);
+            double now = now_sec();
+            wl_display_dispatch_pending(app->display);
+            render(app, now - start);
+            wl_display_dispatch(app->display);
+        }
     }
 }
