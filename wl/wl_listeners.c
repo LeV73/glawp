@@ -79,16 +79,3 @@ struct zwlr_layer_surface_v1_listener layer_surfacel = {
     .configure = layer_surfaceconf,
     .closed = layer_surfaceclose
 };
-
-// Frame callback listner
-static void frame_done(void *data, struct wl_callback *callback, uint32_t time_ms) {
-    struct wl_app *app = data;
-    wl_callback_destroy(callback);
-    app->frame_callback = NULL;
-    app->redraw = 1;
-    (void)time_ms;
-}
-
-static const struct wl_callback_listener frame_callbackl = {
-    .done = frame_done
-};

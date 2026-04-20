@@ -17,7 +17,6 @@
 }
 */
 #include "wl/wl_app.c"
-#include "wl/wl_listeners.c"
 #include "parser.c"
 #include <time.h>
 
@@ -44,24 +43,18 @@ render(struct wl_app *app, double time) {
 
     eglSwapBuffers(app->egl_display, app->egl_surface);
 }
-/*
-void
-schedule_frame(struct wl_app *app) {
-    if (app->frame_callback)
-        return;
 
-    app->frame_callback = wl_surface_frame(app->surface);
-    wl_callback_add_listener(app->frame_callback, &frame_callbackl, app);
-    wl_surface_commit(app->surface);
-}
-*/
 void
 main_loop(struct wl_app *app, struct parsedData *parsed) {
     app->redraw = 1;
+    struct timespec frame_sleep;
+    frame_sleep.tv_nsec = 1.0 / (float)parsed->max_fps * 1000000000.0;
+    frame_sleep.tv_sec = 0;
+
     double start = now_sec();
-    // double target_dt = 1.0 / (double)parsed->max_fps;
-    // double next_frame_time = start;
+
     while (app->running) {
+        nanosleep(&frame_sleep, NULL);
         double now = now_sec();
         wl_display_dispatch_pending(app->display);
         render(app, now - start);
