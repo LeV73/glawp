@@ -32,7 +32,7 @@
 int 
 main(int argc, char **argv) {
     struct parsedData data = parse(argc, argv);
-    if (data.ver_flag || data.debug_flag) return 0;
+    if (data.ver_flag) return 0;
 
     struct wl_app main_app = init_app();
     if (main_app.err != 0) {

@@ -9,23 +9,23 @@
     "version": {
         "major": 0,
         "minor": 1,
-        "patch": 0
+        "patch": 1
     },
     "description": [
         "This file handles parsing arguments.",
         "These arguments include (as of v0.0.1):",
         " - -f, --fps - maximum FPS to render",
         " - -v, --version - print version of glawp",
-        " - -d, --debug - print logs into console (NOT IMPL.)"
+        " - -d, --debug - print logs into console"
         " - PATH - path to GLSL fragment shader"
         ]
     }    
 }
 */
 #pragma once
-#include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <getopt.h>
 
 struct parsedData {
     int ver_flag;
@@ -34,46 +34,51 @@ struct parsedData {
     char* fragShaderPath;
 };
 
-struct parsedData
+struct parsedData 
 parse(int argc, char **argv) {
     struct parsedData data;
     data.max_fps = 30;
     data.ver_flag = 0;
     data.debug_flag = 0;
+    data.fragShaderPath = NULL;
 
-    int parsed_fps;
-    int opt = getopt(argc, argv, ":vdf:");
-    while (opt != -1) {
-        //printf("opt = %i\n", opt);
+    int opt;
+    char *endptr;
+    long fps;
+
+    optind = 1;
+    while ((opt = getopt(argc, argv, ":vdf:")) != -1) {
         switch (opt) {
             case 'v':
-                printf("glawp < my current version is %s\n", "0.1.0");
+                printf("glawp < my current version is %s\n", "0.1.1");
                 data.ver_flag = 1;
                 return data;
             case 'd':
-                printf("glawp < I DON'T DEBUG, I'M HARDCORE!!!!!\n");
+                printf("glawp < debugging this mess...\n");
                 data.debug_flag = 1;
-                return data;
+                break;
             case 'f':
-                parsed_fps = atoi(optarg);
-                if (parsed_fps < 1) {
+                fps = strtol(optarg, &endptr, 10);
+                if (*endptr != '\0' || fps < 1) {
                     printf("glawp < couldn't parse fps, using default 30\n");
                 } else {
-                    printf("glawp < parsed fps = %i\n", parsed_fps);
-                    data.max_fps = parsed_fps;
+                    data.max_fps = (int)fps;
                 }
                 break;
-            case ':': 
-                printf("option needs a value\n"); 
-                data.ver_flag = 1;
+            case ':':
+                printf("glawp < option needs a value\n");
                 return data;
             case '?':
                 printf("glawp < eww, wtf is this option, imma quit real quick...\n");
-                data.ver_flag = 1;
                 return data;
         }
-        opt = getopt(argc, argv, ":vdf:");
     }
-    data.fragShaderPath = argv[argc - 1];
+
+    if (optind < argc) {
+        data.fragShaderPath = argv[optind];
+    } else {
+        printf("glawp < missing fragment shader path\n");
+    }
+
     return data;
 }
